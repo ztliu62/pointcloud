@@ -141,12 +141,11 @@ int main(int argc, char** argv) {
     ne.compute(*normals);
     cout << "Calculating Pointcloud Normal" << endl;
 
-    pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals(new pcl::PointCloud<pcl::PointNormal>);
+    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_normals(new pcl::PointCloud<pcl::PointXYZRGBNormal>);
     pcl::concatenateFields(*mls_points, *normals, *cloud_normals);
-
-    pcl::search::KdTree<pcl::PointNormal>::Ptr ntree2 (new pcl::search::KdTree<pcl::PointNormal>);
+    pcl::search::KdTree<pcl::PointXYZRGBNormal>::Ptr ntree2 (new pcl::search::KdTree<pcl::PointXYZRGBNormal>);
     ntree2->setInputCloud(cloud_normals);
-    pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
+    pcl::GreedyProjectionTriangulation<pcl::PointXYZRGBNormal> gp3;
     pcl::PolygonMesh triangles;
     gp3.setSearchRadius(0.05);
     gp3.setMu(2.5);
