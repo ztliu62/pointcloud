@@ -19,6 +19,10 @@
 #include <pcl/features/normal_3d.h>
 #include <pcl/surface/gp3.h>
 #include <pcl/io/vtk_io.h>
+
+#include <octomap/octomap.h>
+#include <octomap/ColorOcTree.h>
+
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -159,6 +163,16 @@ int main(int argc, char** argv) {
     gp3.reconstruct(triangles);
 
     pcl::io::saveVTKFile("mesh.vtk", triangles);
+
+    octomap::ColorOcTree octTree(0.01);
+    for (auto p: mls_points->points){
+        octTree.updateNode(octomap::point3d(p.x, p.y, p.z), true);
+    }
+    for (auto p: mls_points->points){
+        octTree.integrateNodeColor(p.x, p.y, p.z, p.r, p.g, p.b);
+    }
+    octTree.updateInnerOccupancy();
+    octTree.writeBinary("octomap.bt");
 
     return 0;
 }

@@ -14,5 +14,8 @@ include_directories(${PCL_INCLUDE_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 list(REMOVE_ITEM PCL_LIBRARIES "vtkproj4")
 
+find_package(octomap REQUIRED)
+include_directories(${OCTOMAP_INCLUDE_DIRS})
+
 add_executable(pointcloud main.cpp)
-target_link_libraries( pointcloud ${OpenCV_LIBS} ${PCL_LIBRARIES})
+target_link_libraries( pointcloud ${OpenCV_LIBS} ${PCL_LIBRARIES} ${OCTOMAP_LIBRARIES})
